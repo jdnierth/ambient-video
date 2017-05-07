@@ -1,14 +1,16 @@
-(function() {
-    var video = document.getElementById("bgvideo");
-    var videoWrapper = document.getElementById("bg-video");
-    var pauseButton = document.querySelector("#content button");
+(function () {
+
+    var videoWrapper = document.getElementById("bg-video-wrapper"),
+        video = document.getElementById("bg-video"),
+        pauseButton = document.querySelector(".js-pause-video"),
+        swapButton = document.querySelector(".js-swap-video");
 
     function _init() {
         _bindEvents();
     }
 
-    function _videoFade() {
-        videoWrapper.classList.add("fade");
+    function _toggleFade() {
+        videoWrapper.classList.toggle("fade-out");
     }
 
     /**
@@ -17,47 +19,70 @@
      * @private
      */
     function _pauseAndFadeVideo() {
+        video = document.getElementById("bg-video");
+
         video.pause();
-        // to capture IE10
-        _videoFade();
+
+        // Reduces opacity of the video
+        _toggleFade();
+
     }
 
     /**
+     * Pauses the current video instance
      *
      * @private
      */
     function _togglePauseAndPlayVideo() {
-        videoWrapper.classList.toggle("fade");
-
         if (video.paused) {
             video.play();
-            pauseButton.innerHTML = "Pause";
+            _toggleFade();
         } else {
-            video.pause();
-            pauseButton.innerHTML = "Paused";
+            _pauseAndFadeVideo();
         }
     }
 
+    function _swapVideo() {
+        var prevVideoName = video.dataset.introVideoKey,
+            nextVideoName = video.dataset.nextVideoName,
+            loop = video.dataset.nextVideoLoop,
+            videoDiv = $(videoWrapper).find('div'),
+            videoDomAsString;
+
+        // The 2nd video is supposed to be looping
+        if (loop === 'true') {
+            video.setAttribute("loop", "loop");
+        }
+
+        // Get the current video wrapper markup
+        videoDomAsString = videoDiv[0].innerHTML;
+
+        // fade-out out the wrapper when swapping
+        $(videoWrapper).fadeOut('slow');
+
+        // Update the current video markup wrapper with the new video content.
+        videoDiv[0].innerHTML = videoDomAsString.replace(new RegExp(prevVideoName, "gi"), nextVideoName);
+
+        document.getElementById('bg-video').addEventListener('loadeddata', function () {
+
+            // Play the new video
+            video.play();
+
+            $(videoWrapper).fadeIn('slow');
+        });
+    }
+
     function _bindEvents() {
-        console.log('bindEvents');
         /**
          * Will only work on videos where the property loop is removed
          */
-        video.addEventListener('ended', _pauseAndFadeVideo);
+        video.addEventListener('ended', _swapVideo);
 
         /**
          * If the pause button is clicked the video will be faded out.
          */
         pauseButton.addEventListener("click", _togglePauseAndPlayVideo);
-
-    }
-
-    
-    if (window.matchMedia('(prefers-reduced-motion)').matches) {
-        alert(10);
-        video.removeAttribute("autoplay");
-        video.pause();
-        pauseButton.innerHTML = "Paused";
+        swapButton.addEventListener("click", _swapVideo);
     }
 
     _init();

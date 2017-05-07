@@ -4,20 +4,32 @@
     <meta charset="UTF-8">
     <title>Ambient Video</title>
     <link href="assets/styles/main.css" rel="stylesheet" type="text/css"/>
+    <!-- only used for fade in / - out animation -->
+    <script
+            src="https://code.jquery.com/jquery-3.2.1.min.js"
+            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+            crossorigin="anonymous"></script>
 </head>
 <body>
 
+<!-- https://webkit.org/blog/6784/new-video-policies-for-ios/ -->
+<div id="bg-video-wrapper" class="bg-video-wrapper">
+    <!-- Child dom node will be substituted with a new video - parameters given as data attributes -->
+    <div>
+        <video poster="assets/images/jellyfish_poster.jpg" id="bg-video" playsinline autoplay muted preload
+               data-intro-video-key="jellyfish"
+               data-next-video-name="particle_tunnel"
+               data-next-video-loop="true">
 
-
-<div id="content">
-    <!-- https://webkit.org/blog/6784/new-video-policies-for-ios/ -->
-    <div id="bg-video" class="bg-video">
-        <video poster="assets/images/jellyfish_poster.jpg" id="bgvideo" playsinline autoplay muted loop>
             <source src="assets/video/jellyfish.mp4" type="video/mp4">
             <source src="assets/video/jellyfish.webm" type="video/webm">
         </video>
     </div>
-    
+</div>
+
+<div id="content">
+
+
     <h1>Ambient Video</h1>
 
     <p>
@@ -31,7 +43,8 @@
         nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse
         quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?
     </p>
-    <button>Pause</button>
+    <button class="js-swap-video">Swap video</button>
+    <button class="js-pause-video">Pause video</button>
 </div>
 
 <script src="assets/scripts/main.js"></script>

@@ -18,11 +18,21 @@ video {
     transform: translateX(-50%) translateY(-50%);
     -webkit-transition: 0.3s opacity;
     transition: 0.3s opacity;
-    width: auto;
+    width: 100%;
     z-index: -100;
 }
 
-.bg-video:before {
+/* Required to prevent a flicker effect when swapping video*/
+.bg-video-wrapper {
+    border:5px solid deeppink;
+    display: block;
+    height: 100%;
+    min-height: 100%;
+    position: fixed;
+    width: 100%;
+    z-index: -1;
+}
+.bg-video-wrapper:before {
     content: " ";
     display: block;
     left: 0;
@@ -36,10 +46,14 @@ video {
     z-index: -1;
 }
 
-.fade:before {
+.fade-out:before {
     background-color: #ff00ee;
     -webkit-transition: 0.3s background-color linear;
     transition: 0.3s background-color linear;
+}
+
+.fade-in {
+    opacity:1;
 }
 
 #content {
@@ -114,7 +128,7 @@ a:hover {
     }
 
     /* No video on mobile */
-    #bgvideo, #content button {
+    #bg-video, #content button {
         display: none;
     }
 
