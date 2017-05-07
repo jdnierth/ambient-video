@@ -4,7 +4,7 @@ body {
 }
 
 video {
-    background: url('../images/jellyfish_poster.jpg') no-repeat;
+    /*background: url('../images/jellyfish_poster.jpg') no-repeat;*/
     background-size: cover;
     height: auto;
     left: 50%;
@@ -24,7 +24,6 @@ video {
 
 /* Required to prevent a flicker effect when swapping video*/
 .bg-video-wrapper {
-    border:5px solid deeppink;
     display: block;
     height: 100%;
     min-height: 100%;
@@ -32,6 +31,7 @@ video {
     width: 100%;
     z-index: -1;
 }
+
 .bg-video-wrapper:before {
     content: " ";
     display: block;
@@ -123,7 +123,7 @@ a:hover {
 
 @media all and (max-device-width: 800px) {
     body {
-        background: url("../images/jellyfish_poster.jpg") #000 no-repeat center center fixed;
+        /*background: url("../images/jellyfish_poster.jpg") #000 no-repeat center center fixed;*/
         background-size: cover;
     }
 
